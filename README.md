@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Customer Analysis
 
 The script in `analysis.py` retrieves customer records from JSONPlaceholder,
@@ -55,3 +56,6 @@ CSV files are still written and empty charts are skipped safely.
 - Each customer has the JSONPlaceholder fields used by `extract_attributes`.
 - Email domains are the text after `@`, converted to lowercase.
 - Latitude and longitude are converted from API strings to floats.
+=======
+# day1_api_analysis
+>>>>>>> 3db91e94daaced5724c0439f9116fbe0882322d7
