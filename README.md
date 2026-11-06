@@ -1,61 +1,30 @@
-<<<<<<< HEAD
-# Customer Analysis
 
-The script in `analysis.py` retrieves customer records from JSONPlaceholder,
-flattens selected attributes, counts categories, exports CSV files, and saves
-distribution charts in `output/`.
+# Day 1 - API Data Analysis | Pesa Pulse
 
-## Nested attributes
+Fetches and analyzes customer data from `https://jsonplaceholder.typicode.com/users` using Python structures, pandas, and matplotlib.
 
-The customer record stores related values below these paths:
+### What It Does
+1. **Fetch:** Gets customer data from API with error handling (`timeout=10`)
+2. **Explore:** Recursively inspects nested structure to find paths like `address.city`, `address.geo.lat`, `company.name`
+3. **Flatten:** Extracts 12 attributes per customer: `customer_id, name, username, email, email_domain, phone, city, zipcode, latitude, longitude, company, website`
+4. **Analyze:**
+   - Unique cities and marketing insight
+   - `city_counts` - customers per city (loop/dict, no Counter)
+   - `email_domain_counts` - customers per email TLD
+5. **Validate:** Asserts hand-written counts == `pandas.value_counts()` == `groupby()`
+6. **Export & Visualize:** Saves CSVs and charts to `/output`
 
-- `address.city` and `address.zipcode`
-- `address.geo.lat` and `address.geo.lng`
-- `company.name`
+### Key Findings
+- **City:** All 10 customers are in different cities, so city is a poor segment for this sample. Export is sorted by count DESC, then city A-Z.
+- **Email Domain:** More useful here - groups customers into repeated categories (e.g. `.biz, .org, .net`) that city cannot show.
 
-For example, the latitude is reached with `customer["address"]["geo"]["lat"]`.
-The `explore` function recursively prints each key, its Python type, and its
-depth so these paths can be inspected without manually guessing the structure.
+### Outputs
+- `output/customers.csv` - flat customer attributes
+- `output/city_counts.csv` - city, customer_count
+- `output/customer_distribution.png` - customers by city
+- `output/email_domain_distribution.png` - customers by email domain
 
-## Findings
-
-The number of unique cities is compared with the number of customers. When
-those numbers are equal, every customer is in a different city, so marketing
-should treat city as a poor segment for this sample and use another attribute.
-
-The hand-written city counts are checked against pandas `value_counts()` on the
-DataFrame. The exported city counts are sorted by count descending and then by
-city name.
-
-## Outputs
-
-- `output/customers.csv` contains the requested flat customer attributes.
-- `output/city_counts.csv` contains `city` and `customer_count`.
-- `output/customer_distribution.png` charts customer counts by city.
-- `output/email_domain_distribution.png` charts customer counts by email domain.
-
-Because each city appears once in this sample, the email-domain chart is more
-useful: it groups customers into repeated categories and reveals a distribution
-that city counts cannot show here.
-
-## Run
-
-From this directory, install the dependencies and run the script:
-
+### Run
 ```bash
-python -m pip install -e .
+pip install requests pandas matplotlib
 python analysis.py
-```
-
-The script requires network access to `https://jsonplaceholder.typicode.com/users`.
-If the request fails, it prints an error and continues with empty results; the
-CSV files are still written and empty charts are skipped safely.
-
-## Assumptions
-
-- Each customer has the JSONPlaceholder fields used by `extract_attributes`.
-- Email domains are the text after `@`, converted to lowercase.
-- Latitude and longitude are converted from API strings to floats.
-=======
-# day1_api_analysis
->>>>>>> 3db91e94daaced5724c0439f9116fbe0882322d7
